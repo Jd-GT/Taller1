@@ -1,0 +1,2 @@
+# JS-EAFIT
+This platform enables university entrepreneurs to showcase their businesses and products through personalized profiles. Buyers can explore ventures in a social media-style feed with interactive product cards. The platform features a basic chat system for direct communication between buyers and sellers, along with a star-based rating system to enhance trust and credibility.
