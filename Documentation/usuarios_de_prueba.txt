@@ -1,0 +1,5 @@
+Usuarios de pruebas creados en la base de datos:
+
+User.objects.create_user(username="usuario1", password="12345")
+User.objects.create_user(username="usuario2", password="12345")
+User.objects.create_user(username="usuario3", password="12345")
