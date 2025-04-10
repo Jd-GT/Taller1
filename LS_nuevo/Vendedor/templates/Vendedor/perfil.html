@@ -1,0 +1,43 @@
+{% load static %}  
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de {{ nombre_usuario }}</title>
+    <!-- Vincular el archivo CSS -->
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <!-- Opcional: Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Contenedor principal del perfil -->
+    <div class="contenedor-perfil">
+        <!-- Cabecera con avatar e información -->
+        <div class="cabecera-perfil">
+            <!-- Avatar del usuario -->
+            <img src="{% static 'img/perfil.png' %}" alt="Avatar de usuario" class="avatar">
+            <!-- Información del usuario -->
+            <div class="info-usuario">
+                <h1>{{ nombre_completo }}</h1>
+                <h2>@{{ nombre_usuario }}</h2>
+                <p class="biografia">{{ biografia }}</p>
+            </div>
+        </div>
+        
+        <!-- Estadísticas del perfil -->
+        <div class="estadisticas">
+            <!-- Seguidores -->
+            <div class="estadistica-item">
+                <span class="numero">{{ seguidores }}</span>
+                <span class="etiqueta">Seguidores</span>
+            </div>
+            <!-- Siguiendo -->
+            <div class="estadistica-item">
+                <span class="numero">{{ siguiendo }}</span>
+                <span class="etiqueta">Siguiendo</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
