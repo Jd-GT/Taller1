@@ -1,0 +1,206 @@
+[
+    {
+        "model": "search.search",
+        "pk": 1,
+        "fields": {
+            "name": "Galletas Choco",
+            "category": "Dulces",
+            "price": 2.50,
+            "images": [
+                "https://bakewithshivesh.com/wp-content/uploads/2020/05/151F814A-2749-4978-BA53-3AD2A962C933-scaled.jpg"
+            ]
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 2,
+        "fields": {
+            "name": "Galletas Vainilla",
+            "category": "Dulces",
+            "price": 2.00,
+            "images": [
+                "https://th.bing.com/th/id/R.57402e6d6d097c06204f55490ff062a3?rik=AI64jKXtVg84YQ&pid=ImgRaw&r=0"
+            ]
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 3,
+        "fields": {
+            "name": "Pan Integral",
+            "category": "Panadería",
+            "price": 3.00,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 4,
+        "fields": {
+            "name": "Leche Entera",
+            "category": "Lácteos",
+            "price": 1.80,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 5,
+        "fields": {
+            "name": "Queso Cheddar",
+            "category": "Lácteos",
+            "price": 4.50,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 6,
+        "fields": {
+            "name": "Manzana Roja",
+            "category": "Frutas",
+            "price": 1.20,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 7,
+        "fields": {
+            "name": "Plátano Maduro",
+            "category": "Frutas",
+            "price": 1.10,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 8,
+        "fields": {
+            "name": "Yogur Natural",
+            "category": "Lácteos",
+            "price": 2.30,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 9,
+        "fields": {
+            "name": "Cereal Avena",
+            "category": "Cereales",
+            "price": 3.20,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 10,
+        "fields": {
+            "name": "Chocolate Negro",
+            "category": "Dulces",
+            "price": 5.00,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 11,
+        "fields": {
+            "name": "Pan Blanco",
+            "category": "Panadería",
+            "price": 2.80,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 12,
+        "fields": {
+            "name": "Croissant",
+            "category": "Panadería",
+            "price": 3.50,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 13,
+        "fields": {
+            "name": "Leche Deslactosada",
+            "category": "Lácteos",
+            "price": 2.00,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 14,
+        "fields": {
+            "name": "Queso Mozzarella",
+            "category": "Lácteos",
+            "price": 4.80,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 15,
+        "fields": {
+            "name": "Uvas Verdes",
+            "category": "Frutas",
+            "price": 2.50,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 16,
+        "fields": {
+            "name": "Fresas",
+            "category": "Frutas",
+            "price": 2.90,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 17,
+        "fields": {
+            "name": "Yogur de Fresa",
+            "category": "Lácteos",
+            "price": 2.40,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 18,
+        "fields": {
+            "name": "Cereal Maíz",
+            "category": "Cereales",
+            "price": 3.10,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 19,
+        "fields": {
+            "name": "Miel Natural",
+            "category": "Dulces",
+            "price": 6.00,
+            "images": []
+        }
+    },
+    {
+        "model": "search.search",
+        "pk": 20,
+        "fields": {
+            "name": "Té Verde",
+            "category": "Bebidas",
+            "price": 4.20,
+            "images": []
+        }
+    }
+]
