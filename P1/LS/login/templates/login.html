@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <style>
+        body {
+            background-color: #6a7680;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: rgb(73, 84, 89);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgb(0, 0, 0);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-login {
+            width: 100%;
+            background-color: #1d2021;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .text-muted {
+            text-align: center;
+            display: block;
+            margin-top: 15px;
+        }
+
+    </style>
+</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<body>
+
+    <div class="position-absolute top-0 start-0 m-3">
+        <h4 class="text-muted fw-bold">JSEAFIT</h4>
+    </div> 
+
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+
+
+        {% if messages %}
+    {% for message in messages %}
+        {% if 'register_error' not in message.tags %}  {# No mostrar errores del registro #}
+            <div class="alert {% if 'error' in message.tags %}alert-danger{% else %}alert-success{% endif %}">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+
+
+
+
+    
+
+    
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="username" class="form-label">Usuario</label>
+                <input type="text" name="username" class="form-control" placeholder="Ingresa tu usuario" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">
+                        <i id="eyeIcon" class="bi bi-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <script>
+            function togglePassword() {
+    let passwordInput = document.getElementById("password");
+    let eyeIcon = document.getElementById("eyeIcon");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.classList.remove("bi-eye");
+        eyeIcon.classList.add("bi-eye-slash"); 
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("bi-eye-slash");
+        eyeIcon.classList.add("bi-eye"); 
+    }
+}
+            </script>
+            
+            <button type="submit" class="btn btn-login">Ingresar</button>
+        </form>
+    
+        <span class="text-muted">¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate</a></span>
+    </div>
+    
+
