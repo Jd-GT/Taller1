@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Search
+from .utils import JSONDataLoader 
 
 def search_products(request):
     query = request.GET.get('q', '').strip()
@@ -38,3 +39,9 @@ def create_product(request):
             return JsonResponse({"success": True})
         return JsonResponse({"success": False, "error": "Producto ya existe"})
     return JsonResponse({"success": False, "error": "Método no permitido"})
+
+
+def search_results(request):
+    loader = JSONDataLoader('search/search_data.json')  
+    data = loader.load_data() 
+    return render(request, 'search_results.html', {'data': data})
