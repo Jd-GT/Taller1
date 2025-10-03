@@ -48,9 +48,56 @@
 
 
 
-## 4.   **Aplicación de patrón de diseño Python**: *Escoja alguno de los patrones de diseño de Python vistos en clase (puede ser más de uno) y aplíquelo en alguna de las funcionalidades de su proyecto original. Indique claramente el proceso de decisión detrás de la elección del patrón y cómo mejora la implementación usando el patrón elegido. Documente bien los cambios en el repositorio.*
+## 4.   **Aplicación de patrón de diseño Python**: *Escoja alguno de los patrones de diseño de Python vistos en clase (puede ser más de uno) y aplíquelo en alguna de las funcionalidades de su proyecto original. Indique claramente el proceso de decisión detrás de la elección del patrón y cómo mejora la implementación usando el patrón elegido. Documente bien los cambios en el repositorio.* 
+
+Se aplicó el **Factory Pattern** en el módulo `chat_recomendaciones`.  
+Este patrón permitió encapsular la creación de diferentes generadores de contenido (texto e imágenes) en una interfaz común.  
+
+**Beneficios:**  
+- Separación de la lógica de creación y uso.  
+- Facilidad para agregar nuevos generadores sin modificar el código existente.  
+- Uso polimórfico: todas las implementaciones comparten la misma interfaz.  
+
+Con esto, el código pasó de estar **acoplado a un único servicio** a ser **extensible y mantenible**, facilitando la integración de nuevos proveedores de IA en el futuro.  
+
+
+---
 
 ### 5.   **Aplicación de patrón de Diseño Django**: *Escoja alguno de los patrones de diseño de Django vistos en clase (puede ser más de uno) y aplíquelo en alguna de las funcionalidades de su proyecto original. Indique claramente el proceso de decisión detrás de la elección del patrón y cómo mejora la implementación usando el patrón elegido. Documente bien los cambios en el repositorio. Deben implementar por lo menos dos patrones, para dos partes diferentes de la arquitectura (ejemplo: Vistas CRUD para controladores y Normalización para Modelos).*
 
+Se implementaron **dos patrones diferentes** en distintas partes de la arquitectura:  
+
+### a) **Strategy Pattern – Algoritmos de Búsqueda**  
+En el módulo `search`, la búsqueda de productos estaba limitada a una sola forma (`contains`).  
+Se implementó una estrategia que permite intercambiar algoritmos en tiempo de ejecución (exact match, fuzzy search, por rango de precios, por categoría).  
+
+**Beneficios:**  
+- Flexibilidad: elegir el algoritmo según la consulta.  
+- Extensibilidad: agregar nuevas estrategias sin modificar la vista principal.  
+- Mejor rendimiento y precisión de los resultados.  
+
+### b) **API REST con Django REST Framework**  
+Se normalizaron modelos y vistas creando una **API REST completa** para productos y recomendaciones.  
+Incluye serialización, paginación, filtros y documentación automática (Swagger).  
+
+**Beneficios:**  
+- Escalabilidad: el sistema ahora puede integrarse con cualquier frontend.  
+- Seguridad: validaciones estrictas y control de inputs.  
+- Experiencia de desarrollo mejorada con documentación interactiva.
+
+---   
 ##   **BONO**: *Implementen una nueva funcionalidad desde cero, aplicando patrones de diseño de su elección y justificando sus decisiones a la hora de incluir la funcionalidad y de aplicar los patrones escogidos.*
+
+---
+
+Se creó una **API REST para recomendaciones con IA**, que combina los patrones anteriores:  
+- **Factory Pattern**: genera texto e imágenes de productos.  
+- **Strategy Pattern**: soporta búsquedas avanzadas en los endpoints.  
+
+**Beneficios principales:**  
+- API robusta con más de 10 endpoints documentados.  
+- Recomendaciones inteligentes y flexibles.  
+- Código desacoplado y preparado para escalar (nuevas estrategias de búsqueda o generadores de IA).  
+
+
 
