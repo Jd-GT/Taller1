@@ -7,15 +7,7 @@ from .utils import JSONDataLoader
 from .strategies import SearchContext, SearchStrategyFactory
 
 def search_products(request):
-    """
-    Vista de búsqueda mejorada usando Strategy Pattern.
-    
-    Cambios implementados:
-    - Uso del Strategy Pattern para diferentes algoritmos de búsqueda
-    - Soporte para múltiples tipos de búsqueda (fuzzy, exacta, por precio, etc.)
-    - Mejor manejo de parámetros y filtros
-    - Respuestas más informativas con metadatos
-    """
+    """Enhanced search view using Strategy Pattern for multiple search algorithms."""
     query = request.GET.get('q', '').strip()
     category = request.GET.get('category', '').strip()
     search_type = request.GET.get('search_type', 'contains').strip()

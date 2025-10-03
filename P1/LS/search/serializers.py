@@ -1,14 +1,6 @@
 """
-API REST - Serializers
-
-Este módulo contiene los serializers de Django REST Framework
-para la conversión entre objetos Python y representaciones JSON.
-
-Funcionalidades implementadas:
-- Serialización completa de modelos de productos
-- Validaciones personalizadas
-- Campos calculados y relaciones
-- Soporte para diferentes niveles de detalle
+Django REST Framework serializers for API data conversion.
+Includes validation, computed fields, and different detail levels.
 """
 
 from rest_framework import serializers
@@ -20,11 +12,7 @@ from typing import Dict, Any
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    """
-    Serializer completo para el modelo Search (productos).
-    
-    Incluye validaciones personalizadas y campos calculados.
-    """
+    """Complete serializer for Search model with validation and computed fields."""
     
     # Campos calculados
     price_formatted = serializers.SerializerMethodField()

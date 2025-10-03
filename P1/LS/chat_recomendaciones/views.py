@@ -7,15 +7,7 @@ from .factories import AIGeneratorFactory
 @csrf_exempt
 @require_POST
 def chat_ia(request):
-    """
-    Endpoint mejorado para el chat de recomendaciones usando Factory Pattern.
-    
-    Cambios implementados:
-    - Uso del Factory Pattern para crear generadores de IA
-    - Mejor manejo de errores y validaciones
-    - Separación de responsabilidades
-    - Código más mantenible y extensible
-    """
+    """AI chat endpoint using Factory Pattern for generators."""
     try:
         data = json.loads(request.body)
         descripcion = data.get("descripcion", "").strip()
@@ -72,7 +64,4 @@ def chat_ia(request):
             "status": "error"
         }, status=500)
 
-# Funciones originales removidas - ahora se usa el Factory Pattern
-# Las funciones generar_recomendacion y generar_imagen han sido
-# refactorizadas e integradas en las clases TextGenerator e ImageGenerator
-# dentro del archivo factories.py para seguir el patrón Factory.
+# AI generation functions moved to factories.py using Factory Pattern

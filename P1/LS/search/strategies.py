@@ -1,14 +1,6 @@
 """
-STRATEGY PATTERN - Algoritmos de Búsqueda
-
-Este módulo implementa el patrón Strategy para manejar diferentes
-algoritmos de búsqueda y filtrado de productos.
-
-Ventajas del Strategy Pattern:
-- Permite cambiar algoritmos en tiempo de ejecución
-- Facilita agregar nuevos algoritmos sin modificar código existente
-- Encapsula diferentes estrategias de búsqueda
-- Mejora la mantenibilidad y testing del código
+Strategy Pattern implementation for search algorithms.
+Provides multiple search strategies with runtime switching capability.
 """
 
 from abc import ABC, abstractmethod
@@ -19,42 +11,21 @@ from .models import Search
 
 
 class SearchStrategy(ABC):
-    """
-    Clase abstracta base para todas las estrategias de búsqueda.
-    Define la interfaz común que deben implementar todas las estrategias.
-    """
+    """Abstract base class for search strategies."""
     
     @abstractmethod
     def search(self, queryset: QuerySet, query: str, **kwargs) -> QuerySet:
-        """
-        Ejecuta la búsqueda usando la estrategia específica.
-        
-        Args:
-            queryset (QuerySet): QuerySet base de productos
-            query (str): Término de búsqueda
-            **kwargs: Parámetros adicionales específicos de la estrategia
-            
-        Returns:
-            QuerySet: Productos filtrados según la estrategia
-        """
+        """Execute search using specific strategy."""
         pass
     
     @abstractmethod
     def get_strategy_name(self) -> str:
-        """
-        Retorna el nombre identificador de la estrategia.
-        
-        Returns:
-            str: Nombre de la estrategia
-        """
+        """Return strategy identifier name."""
         pass
 
 
 class ExactMatchStrategy(SearchStrategy):
-    """
-    Estrategia de búsqueda por coincidencia exacta.
-    Busca productos que coincidan exactamente con el término de búsqueda.
-    """
+    """Exact match search strategy."""
     
     def get_strategy_name(self) -> str:
         return "exact_match"
@@ -80,10 +51,7 @@ class ExactMatchStrategy(SearchStrategy):
 
 
 class ContainsStrategy(SearchStrategy):
-    """
-    Estrategia de búsqueda por contenido (case-insensitive).
-    Busca productos que contengan el término de búsqueda.
-    """
+    """Contains-based search strategy (case-insensitive)."""
     
     def get_strategy_name(self) -> str:
         return "contains"
@@ -109,10 +77,7 @@ class ContainsStrategy(SearchStrategy):
 
 
 class FuzzySearchStrategy(SearchStrategy):
-    """
-    Estrategia de búsqueda difusa (fuzzy search).
-    Busca productos usando múltiples palabras y coincidencias parciales.
-    """
+    """Fuzzy search with multiple terms and relevance scoring."""
     
     def get_strategy_name(self) -> str:
         return "fuzzy"
@@ -199,10 +164,7 @@ class FuzzySearchStrategy(SearchStrategy):
 
 
 class PriceRangeStrategy(SearchStrategy):
-    """
-    Estrategia de búsqueda por rango de precios.
-    Filtra productos dentro de un rango de precios específico.
-    """
+    """Price range filtering strategy."""
     
     def get_strategy_name(self) -> str:
         return "price_range"
@@ -233,10 +195,7 @@ class PriceRangeStrategy(SearchStrategy):
 
 
 class CategoryStrategy(SearchStrategy):
-    """
-    Estrategia de búsqueda específica por categoría.
-    Filtra productos de categorías específicas con búsqueda opcional dentro de la categoría.
-    """
+    """Category-specific search strategy."""
     
     def get_strategy_name(self) -> str:
         return "category"

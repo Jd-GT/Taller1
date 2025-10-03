@@ -1,14 +1,6 @@
 """
-FACTORY PATTERN - Generadores de IA
-
-Este módulo implementa el patrón Factory para crear diferentes tipos
-de generadores de contenido AI (texto e imágenes).
-
-Ventajas del Factory Pattern:
-- Encapsula la creación de objetos complejos
-- Permite agregar nuevos tipos de generadores sin modificar código existente
-- Separa la lógica de creación de la lógica de uso
-- Facilita el testing y mantenimiento
+Factory Pattern implementation for AI content generators.
+Provides text and image generation with extensible architecture.
 """
 
 from abc import ABC, abstractmethod
@@ -19,64 +11,32 @@ from typing import Dict, Any, Optional
 
 
 class AIGenerator(ABC):
-    """
-    Clase abstracta base para todos los generadores de IA.
-    Define la interfaz común que deben implementar todos los generadores.
-    """
+    """Abstract base class for AI content generators."""
     
     @abstractmethod
     def generate(self, prompt: str, **kwargs) -> Dict[str, Any]:
-        """
-        Genera contenido basado en el prompt proporcionado.
-        
-        Args:
-            prompt (str): El texto de entrada para la generación
-            **kwargs: Parámetros adicionales específicos del generador
-            
-        Returns:
-            Dict[str, Any]: Resultado de la generación
-        """
+        """Generate content based on the provided prompt."""
         pass
     
     @abstractmethod
     def validate_input(self, prompt: str) -> bool:
-        """
-        Valida que el input sea apropiado para este generador.
-        
-        Args:
-            prompt (str): El prompt a validar
-            
-        Returns:
-            bool: True si el input es válido
-        """
+        """Validate input for the generator."""
         pass
 
 
 class TextGenerator(AIGenerator):
-    """
-    Generador de texto usando modelos de lenguaje.
-    Implementa la interfaz AIGenerator para recomendaciones de productos.
-    """
+    """Text generator using Hugging Face language models."""
     
     def __init__(self):
         self.api_url = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1"
         self.headers = {"Authorization": f"Bearer {settings.HUGGINGFACE_API_KEY}"}
     
     def validate_input(self, prompt: str) -> bool:
-        """Valida que el prompt tenga al menos 3 caracteres."""
+        """Validate prompt has minimum 3 characters."""
         return len(prompt.strip()) >= 3
     
     def generate(self, prompt: str, **kwargs) -> Dict[str, Any]:
-        """
-        Genera recomendaciones de productos usando IA de texto.
-        
-        Args:
-            prompt (str): Descripción del producto deseado
-            **kwargs: Parámetros como temperature, max_tokens, etc.
-            
-        Returns:
-            Dict con 'success', 'content', y 'error' si aplica
-        """
+        """Generate product recommendations using AI text model."""
         if not self.validate_input(prompt):
             return {
                 'success': False,
@@ -139,17 +99,14 @@ Asistente:"""
 
 
 class ImageGenerator(AIGenerator):
-    """
-    Generador de imágenes usando modelos de difusión.
-    Implementa la interfaz AIGenerator para crear imágenes de productos.
-    """
+    """Image generator using Stable Diffusion models."""
     
     def __init__(self):
         self.api_url = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
         self.headers = {"Authorization": f"Bearer {settings.HUGGINGFACE_API_KEY}"}
     
     def validate_input(self, prompt: str) -> bool:
-        """Valida que el prompt no esté vacío y no contenga contenido inapropiado."""
+        """Validate prompt for inappropriate content."""
         if not prompt.strip():
             return False
         
@@ -159,16 +116,7 @@ class ImageGenerator(AIGenerator):
         return not any(word in prompt_lower for word in forbidden_words)
     
     def generate(self, prompt: str, **kwargs) -> Dict[str, Any]:
-        """
-        Genera imágenes de productos usando IA.
-        
-        Args:
-            prompt (str): Nombre del producto para generar imagen
-            **kwargs: Parámetros como width, height, steps, etc.
-            
-        Returns:
-            Dict con 'success', 'content' (base64), y 'error' si aplica
-        """
+        """Generate product images using AI."""
         if not self.validate_input(prompt):
             return {
                 'success': False,
@@ -224,17 +172,7 @@ class ImageGenerator(AIGenerator):
 
 
 class AIGeneratorFactory:
-    """
-    Factory class para crear diferentes tipos de generadores de IA.
-    
-    Implementa el patrón Factory Method para encapsular la creación
-    de objetos AIGenerator y permitir extensibilidad futura.
-    
-    Ejemplo de uso:
-        factory = AIGeneratorFactory()
-        text_gen = factory.create_generator('text')
-        image_gen = factory.create_generator('image')
-    """
+    """Factory class for creating AI generators."""
     
     # Registro de tipos disponibles
     _generators = {

@@ -1,14 +1,6 @@
 """
-API REST - ViewSets
-
-Este módulo contiene las ViewSets de Django REST Framework
-que implementan los endpoints de la API REST.
-
-Patrones implementados:
-- ViewSet pattern para endpoints RESTful
-- Mixins para funcionalidades específicas
-- Filtrado y búsqueda avanzada
-- Documentación automática con drf-spectacular
+Django REST Framework ViewSets for API endpoints.
+Implements RESTful endpoints with filtering, search, and documentation.
 """
 
 from rest_framework import viewsets, status, permissions
@@ -33,21 +25,7 @@ from chat_recomendaciones.serializers import RecommendationSerializer
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet completo para gestión de productos.
-    
-    Proporciona endpoints RESTful completos (CRUD) para productos
-    con funcionalidades avanzadas de búsqueda y filtrado.
-    
-    Endpoints disponibles:
-    - GET /api/products/ - Listar productos
-    - POST /api/products/ - Crear producto
-    - GET /api/products/{id}/ - Detalle de producto
-    - PUT /api/products/{id}/ - Actualizar producto
-    - PATCH /api/products/{id}/ - Actualización parcial
-    - DELETE /api/products/{id}/ - Eliminar producto
-    - POST /api/products/advanced_search/ - Búsqueda avanzada
-    """
+    """Complete ViewSet for product management with CRUD and advanced search."""
     
     queryset = Search.objects.all()
     serializer_class = ProductSerializer
@@ -61,12 +39,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering = ['name']
     
     def get_serializer_class(self):
-        """
-        Retorna el serializer apropiado según la acción.
-        
-        Usa ProductSummarySerializer para listados y 
-        ProductSerializer para detalles y modificaciones.
-        """
+        """Return appropriate serializer based on action."""
         if self.action == 'list':
             return ProductSummarySerializer
         return ProductSerializer

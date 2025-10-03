@@ -1,14 +1,6 @@
 """
-API REST - URLs Configuration
-
-Este archivo configura las rutas para la API REST usando
-Django REST Framework routers y ViewSets.
-
-Características implementadas:
-- Rutas automáticas para ViewSets
-- Versionado de API (v1)
-- Documentación automática con Swagger/ReDoc
-- Endpoints organizados por funcionalidad
+API REST URLs configuration with automatic routing and documentation.
+Includes versioning (v1) and Swagger/ReDoc integration.
 """
 
 from django.urls import path, include
