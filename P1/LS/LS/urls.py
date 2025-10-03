@@ -20,10 +20,16 @@ from django.conf import settings
 from django.conf.urls.static import static  # Faltaba importar esto
 
 urlpatterns = [
+    # Admin
     path('admin/', admin.site.urls),
+    
+    # Aplicaciones web tradicionales
     path('', include('landing.urls')), 
     path('search/', include('search.urls')), 
     path("recomendaciones/", include("chat_recomendaciones.urls")),
+    
+    # API REST (nuevos endpoints)
+    path('', include('api_urls')),
 ]
 
 # Servir archivos de la carpeta media en desarrollo

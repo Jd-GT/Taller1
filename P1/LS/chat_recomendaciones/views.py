@@ -1,15 +1,21 @@
-import requests
 import json
-import base64
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
 from django.views.decorators.http import require_POST
+from .factories import AIGeneratorFactory
 
 @csrf_exempt
 @require_POST
 def chat_ia(request):
-    """Endpoint mejorado para el chat de recomendaciones"""
+    """
+    Endpoint mejorado para el chat de recomendaciones usando Factory Pattern.
+    
+    Cambios implementados:
+    - Uso del Factory Pattern para crear generadores de IA
+    - Mejor manejo de errores y validaciones
+    - Separación de responsabilidades
+    - Código más mantenible y extensible
+    """
     try:
         data = json.loads(request.body)
         descripcion = data.get("descripcion", "").strip()
@@ -20,15 +26,34 @@ def chat_ia(request):
                 "status": "error"
             }, status=400)
 
-        # 1. Primero generamos la recomendación de texto
-        recomendacion = generar_recomendacion(descripcion)
+        # Usar Factory Pattern para crear generadores
+        factory = AIGeneratorFactory()
         
-        # 2. Si hay recomendación válida, generamos imagen
+        # 1. Generar recomendación de texto
+        text_generator = factory.create_generator('text')
+        text_result = text_generator.generate(descripcion)
+        
+        if not text_result['success']:
+            return JsonResponse({
+                "error": text_result['error'],
+                "status": "error"
+            }, status=500)
+        
+        recomendacion = text_result['content']
+        
+        # 2. Generar imagen si hay recomendación válida
         imagen_b64 = None
         if recomendacion and "No encontré" not in recomendacion:
-            # Extraemos solo el nombre del producto (antes de los dos puntos)
+            # Extraer nombre del producto (antes de los dos puntos)
             producto_nombre = recomendacion.split(":")[0].strip()
-            imagen_b64 = generar_imagen(producto_nombre)
+            
+            image_generator = factory.create_generator('image')
+            image_result = image_generator.generate(producto_nombre)
+            
+            if image_result['success']:
+                imagen_b64 = image_result['content']
+            else:
+                print(f"Error generando imagen: {image_result['error']}")
         
         return JsonResponse({
             "producto": recomendacion,
@@ -38,6 +63,8 @@ def chat_ia(request):
 
     except json.JSONDecodeError:
         return JsonResponse({"error": "JSON inválido", "status": "error"}, status=400)
+    except ValueError as e:
+        return JsonResponse({"error": str(e), "status": "error"}, status=400)
     except Exception as e:
         print(f"Error en endpoint: {str(e)}")
         return JsonResponse({
@@ -45,74 +72,7 @@ def chat_ia(request):
             "status": "error"
         }, status=500)
 
-def generar_recomendacion(descripcion):
-    """Genera recomendaciones usando un modelo accesible"""
-    url = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1"
-    headers = {"Authorization": f"Bearer {settings.HUGGINGFACE_API_KEY}"}
-
-    prompt = f"""Eres un experto en recomendaciones de productos para estudiantes universitarios. 
-Responde ÚNICAMENTE con el formato: "Nombre del producto: breve descripción (máximo 8 palabras)"
-
-Ejemplo: "Cuaderno profesional: 200 hojas con espiral metálico"
-
-Usuario: {descripcion}
-Asistente:"""
-
-    data = {
-        "inputs": prompt,
-        "parameters": {
-            "temperature": 0.7,
-            "max_new_tokens": 50,
-            "do_sample": True
-        }
-    }
-
-    try:
-        response = requests.post(url, headers=headers, json=data, timeout=25)
-        
-        if response.status_code == 200:
-            resultado = response.json()
-            if isinstance(resultado, list) and resultado:
-                texto = resultado[0].get('generated_text', '')
-                # Limpieza de la respuesta
-                if "Asistente:" in texto:
-                    return texto.split("Asistente:")[1].strip().strip('"')
-                return texto.strip().strip('"')
-        
-        return "No encontré productos. Por favor describe mejor lo que necesitas."
-    
-    except Exception as e:
-        print(f"Error en generación: {str(e)}")
-        return "El servicio de recomendaciones no está disponible temporalmente."
-
-def generar_imagen(producto_nombre):
-    """Genera imágenes usando SDXL con manejo de errores"""
-    url = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
-    headers = {"Authorization": f"Bearer {settings.HUGGINGFACE_API_KEY}"}
-    
-    prompt = f"Fotografía profesional de {producto_nombre}, fondo blanco, estilo e-commerce, alta calidad, 4k"
-
-    try:
-        response = requests.post(
-            url,
-            headers=headers,
-            json={
-                "inputs": prompt,
-                "parameters": {
-                    "width": 512,
-                    "height": 512,
-                    "num_inference_steps": 20
-                }
-            },
-            timeout=30
-        )
-        
-        if response.status_code == 200:
-            return base64.b64encode(response.content).decode('utf-8')
-        
-        print(f"Error en imagen: {response.status_code} - {response.text}")
-        return None
-    
-    except Exception as e:
-        print(f"Error en generación de imagen: {str(e)}")
-        return None
+# Funciones originales removidas - ahora se usa el Factory Pattern
+# Las funciones generar_recomendacion y generar_imagen han sido
+# refactorizadas e integradas en las clases TextGenerator e ImageGenerator
+# dentro del archivo factories.py para seguir el patrón Factory.
