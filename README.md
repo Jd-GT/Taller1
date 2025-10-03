@@ -5,48 +5,29 @@
 ## 2.  **Revisión autocrítica**:  *Mencionen aspectos de su proyecto, relacionados con los parámetros de calidad vistos en clase (Usabilidad, Compatibilidad, Rendimiento, Seguridad), resaltando aspectos que cumplan estos parámetros y aspectos a mejorar. Incluya aspectos donde pueda aplicar inversión*
 ####  **Usabilidad**
 
-####  Aspectos Positivos
-- **Sistema de administración de Django**: La base del proyecto utiliza Django, proporcionando un sistema de administración robusto y usable.
-
-####  Aspectos a Mejorar
-- **Estructura de aplicaciones**: Múltiples apps innecesarias que confunden la navegación del código
-- **Vistas y rutas incompletas**: Varios archivos `views.py` y `urls.py` vacíos o incompletos
-- **Falta de estructura de navegación**: No existe una plantilla unificada ni flujo claro de usuario
+#### El proyecto se construyó sobre Django, lo que ya ofrece cierta facilidad para gestionar datos gracias al panel de administración. Sin embargo, la organización actual de las aplicaciones no ayuda: hay apps duplicadas, lo que confunde tanto al desarrollador como al usuario final. Además, varias vistas y rutas están vacías o incompletas, lo que genera la sensación de que la web no está terminada y, por lo tanto, no permite al usuario cumplir el objetivo principal del sistema. 
 
 ---
 
 ###  **Compatibilidad**
 
-####  Aspectos Positivos
-- **Framework multiplataforma**: Django puede ejecutarse en distintos sistemas operativos
-- **Entorno virtual**: Uso de entorno virtual para aislamiento de dependencias
-
-####  Aspectos a Mejorar
-- **Gestión de dependencias**: Falta archivo `requirements.txt` o `Pipfile` documentado
-- **Compatibilidad no probada**: No se ha verificado funcionamiento en diferentes versiones de Python/Django
+#### La base en Django asegura que el proyecto puede ejecutarse en diferentes entornos con solo contar con Python. Aun así, falta un archivo `requirements.txt` para garantizar que otros desarrolladores puedan levantar el sistema. Tampoco hay pruebas documentadas en distintas versiones de Python o Django, lo que abre la posibilidad de que surjan errores si se despliega en otro entorno.
 
 ---
 
 ###  **Rendimiento**
 
-####  Aspectos Positivos
-- **Arquitectura ligera**: Sistema pequeño que no requiere grandes recursos
-- **Despliegue inicial**: Funciona adecuadamente en servidor local y producción básica
+####  Al ser un proyecto pequeño, no tiene exigencias de hardware ni de servidores potentes. Sin embargo, el rendimiento podría verse afectado en el futuro porque el código presenta duplicaciones y estructuras innecesarias. También sería recomendable optimizar las consultas a la base de datos y revisar la normalización de los modelos, ya que de lo contrario podría haber problemas de escalabilidad más adelante.
 
 ####  Aspectos a Mejorar
 - **Duplicación de código**: Estructuras innecesarias que aumentan carga de mantenimiento
 - **Consultas a base de datos**: No se utilizan `select_related` 
-- **Normalización de datos**: Falta de normalización puede generar redundancia futura
 
 ---
 
 ###  **Seguridad**
 
-####  Aspectos Positivos
-- **Protecciones incorporadas**: Django ofrece protección contra:
-  -  CSRF (Cross-Site Request Forgery)
-  -  XSS (Cross-Site Scripting) 
-  -  SQL Injection
+####  Django ya trae protecciones por defecto contra ataques comunes, lo cual es un punto a favor. El problema es que el proyecto no implementa mecanismos de autenticación ni autorización que controlen lo que cada tipo de usuario puede hacer. Tampoco hay validaciones estrictas en formularios ni configuraciones básicas de seguridad para un entorno de producción. Esto lo convierte en un aspecto crítico a reforzar si se piensa desplegar el sistema en un escenario real.
 
 ####  Aspectos a Mejorar
 - **Control de acceso**: No hay manejo de autenticación ni autorización por roles
@@ -67,8 +48,56 @@
 
 
 
-## 4.   **Aplicación de patrón de diseño Python**: *Escoja alguno de los patrones de diseño de Python vistos en clase (puede ser más de uno) y aplíquelo en alguna de las funcionalidades de su proyecto original. Indique claramente el proceso de decisión detrás de la elección del patrón y cómo mejora la implementación usando el patrón elegido. Documente bien los cambios en el repositorio.*
+## 4.   **Aplicación de patrón de diseño Python**: *Escoja alguno de los patrones de diseño de Python vistos en clase (puede ser más de uno) y aplíquelo en alguna de las funcionalidades de su proyecto original. Indique claramente el proceso de decisión detrás de la elección del patrón y cómo mejora la implementación usando el patrón elegido. Documente bien los cambios en el repositorio.* 
+
+Se aplicó el **Factory Pattern** en el módulo `chat_recomendaciones`.  
+Este patrón permitió encapsular la creación de diferentes generadores de contenido (texto e imágenes) en una interfaz común.  
+
+**Beneficios:**  
+- Separación de la lógica de creación y uso.  
+- Facilidad para agregar nuevos generadores sin modificar el código existente.  
+- Uso polimórfico: todas las implementaciones comparten la misma interfaz.  
+
+Con esto, el código pasó de estar **acoplado a un único servicio** a ser **extensible y mantenible**, facilitando la integración de nuevos proveedores de IA en el futuro.  
+
+
+---
 
 ### 5.   **Aplicación de patrón de Diseño Django**: *Escoja alguno de los patrones de diseño de Django vistos en clase (puede ser más de uno) y aplíquelo en alguna de las funcionalidades de su proyecto original. Indique claramente el proceso de decisión detrás de la elección del patrón y cómo mejora la implementación usando el patrón elegido. Documente bien los cambios en el repositorio. Deben implementar por lo menos dos patrones, para dos partes diferentes de la arquitectura (ejemplo: Vistas CRUD para controladores y Normalización para Modelos).*
 
+Se implementaron **dos patrones diferentes** en distintas partes de la arquitectura:  
+
+### a) **Strategy Pattern – Algoritmos de Búsqueda**  
+En el módulo `search`, la búsqueda de productos estaba limitada a una sola forma (`contains`).  
+Se implementó una estrategia que permite intercambiar algoritmos en tiempo de ejecución (exact match, fuzzy search, por rango de precios, por categoría).  
+
+**Beneficios:**  
+- Flexibilidad: elegir el algoritmo según la consulta.  
+- Extensibilidad: agregar nuevas estrategias sin modificar la vista principal.  
+- Mejor rendimiento y precisión de los resultados.  
+
+### b) **API REST con Django REST Framework**  
+Se normalizaron modelos y vistas creando una **API REST completa** para productos y recomendaciones.  
+Incluye serialización, paginación, filtros y documentación automática (Swagger).  
+
+**Beneficios:**  
+- Escalabilidad: el sistema ahora puede integrarse con cualquier frontend.  
+- Seguridad: validaciones estrictas y control de inputs.  
+- Experiencia de desarrollo mejorada con documentación interactiva.
+
+---   
 ##   **BONO**: *Implementen una nueva funcionalidad desde cero, aplicando patrones de diseño de su elección y justificando sus decisiones a la hora de incluir la funcionalidad y de aplicar los patrones escogidos.*
+
+---
+
+Se creó una **API REST para recomendaciones con IA**, que combina los patrones anteriores:  
+- **Factory Pattern**: genera texto e imágenes de productos.  
+- **Strategy Pattern**: soporta búsquedas avanzadas en los endpoints.  
+
+**Beneficios principales:**  
+- API robusta con más de 10 endpoints documentados.  
+- Recomendaciones inteligentes y flexibles.  
+- Código desacoplado y preparado para escalar (nuevas estrategias de búsqueda o generadores de IA).  
+
+
+
